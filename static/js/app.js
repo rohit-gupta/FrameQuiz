@@ -277,9 +277,12 @@ async function detectShots() {
 function renderShotMarkers() {
     // Clear existing markers
     elements.shotMarkers.innerHTML = '';
-    
+
     // Add a marker for each shot boundary
-    state.shots.forEach(time => {
+    state.shots.forEach(shot => {
+        const time = typeof shot === 'number' ? shot : shot.start;
+        if (typeof time !== 'number') return;
+
         const percent = (time / state.videoDuration) * 100;
         const marker = document.createElement('div');
         marker.className = 'shot-marker';
